@@ -93,8 +93,8 @@ void UIEngine::renderFinalScreen(GameData* const aGameData) {
 		this->m_PlayerBScreen.println(F("Winner"));
 	}
 	else {
-		this->m_PlayerBScreen.println(F("Loser"));
 		this->m_PlayerAScreen.println(F("Winner"));
+		this->m_PlayerBScreen.println(F("Loser"));
 	}
 	doDraw();
 }
