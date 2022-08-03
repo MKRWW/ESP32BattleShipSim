@@ -82,13 +82,15 @@ void UIEngine::drawCell(Adafruit_SSD1306& aPlayerAScreen, Cell& aCell, int aCell
 
 void UIEngine::renderFinalScreen(GameData* const aGameData) {
 	clearScreen();
+	this->m_PlayerAScreen.setCursor(20, 20);
+	this->m_PlayerBScreen.setCursor(20, 20);
 	this->m_PlayerAScreen.setTextSize(TEXT_SIZE);
 	this->m_PlayerBScreen.setTextSize(TEXT_SIZE);
 	this->m_PlayerAScreen.setTextColor(TEXT_COLOR);
 	this->m_PlayerBScreen.setTextColor(TEXT_COLOR);
 	if (aGameData->playerA()->fleet()->isDestroyed()) {
-		this->m_PlayerAScreen.println(F("You lost"));
-		this->m_PlayerBScreen.println(F("You won"));
+		this->m_PlayerAScreen.println(F("Loser"));
+		this->m_PlayerBScreen.println(F("Winner"));
 	}
 	else {
 		this->m_PlayerBScreen.println(F("Loser"));
