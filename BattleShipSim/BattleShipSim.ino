@@ -70,8 +70,8 @@ void loop() {
     //the main Game loop
     while (gameData->currentState() != GameData::GAME_SATE_FINISHED) {
         uiEngine->render(gameData);
-        //all two Seconds we update the gamestate
-        if (millis() - lastDataUpdateTimeStamp > 100) {
+        //all 250 milliseconds we update the gamestate
+        if (millis() - lastDataUpdateTimeStamp > 250) {
             engine->update(gameData);
             lastDataUpdateTimeStamp = millis();
         }
