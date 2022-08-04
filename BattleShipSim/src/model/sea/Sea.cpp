@@ -19,7 +19,7 @@ Sea::Sea(uint8_t aSize) {
 }
 
 Sea::~Sea() {
-	//So here we free the memory upon destruction. Who needs garbage collectory and other fancy script kiddie rubish if one can be god over the heap :D
+	//So here we free the memory upon destruction. Who needs garbage collectory and other fancy script kiddie rubbish if one can be god over the heap :D
 	for (int i = 0; i < this->m_Size; i++) {
 		delete[] this->m_Cells[i];
 	}
