@@ -11,6 +11,8 @@
 #include "../model/ships/Fleet.h"
 #include "../model/sea/Cell.h"
 
+#define PLACEMENT_ATTEMPTS_SWITCH_ORIENTATION 15
+
 bool FleetArrangerService::placeShipsForPlayer(Player* const aPlayer) {
 	Serial.println(F("FleetArrangerService: placeShipsForPlayer start...."));
 	int fleetSize = aPlayer->fleet()->size();
@@ -21,11 +23,11 @@ bool FleetArrangerService::placeShipsForPlayer(Player* const aPlayer) {
 	for (int i = 0; i < fleetSize;i++) {
 		Ship* currentShip = aPlayer->fleet()->shipAt(i);
 		Serial.print(F("FleetArrangerService:: Current ship: ")); Serial.println(currentShip->type());
-		Ship::shipOrientation_t shipOrientation = orientations[random(0, 10)];
-		currentShip->setOrientation(shipOrientation);
+		currentShip->setOrientation(orientations[random(0, 10)]);
 		Serial.print(F("FleetArrangerService:: Current ship's orientation: ")); Serial.println(currentShip->orientation());
 		Serial.print(F("FleetArrangerService:: Current ship's size: ")); Serial.println(currentShip->size());
 		bool shipHasBeenPlaced = false;
+		int attempts = 0;
 		while (!shipHasBeenPlaced) {
 			int row = random(0, aPlayer->sea()->size());
 			int col = random(0, aPlayer->sea()->size());
@@ -33,6 +35,13 @@ bool FleetArrangerService::placeShipsForPlayer(Player* const aPlayer) {
 			if (shipDoesFitInSea(currentShip, row, col, aPlayer->sea()) && shipDoesNotOverlapOtherShip(currentShip, row, col, aPlayer->sea())) {
 				placeShip(currentShip, row, col, aPlayer->sea());
 				shipHasBeenPlaced = true;
+			}
+			else {
+				attempts++;
+			}
+			if (attempts >= PLACEMENT_ATTEMPTS_SWITCH_ORIENTATION) {
+				currentShip->setOrientation(currentShip->orientation() == Ship::ORIENTATION_HORIZONTAL ? Ship::ORIENTATION_VERTICAL : Ship::ORIENTATION_HORIZONTAL);
+				attempts = 0;
 			}
 		}
 	}
